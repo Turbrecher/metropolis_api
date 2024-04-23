@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'cartelera',
     'reserva',
     'autenticacion',
+    'compra',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

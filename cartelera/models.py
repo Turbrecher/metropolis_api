@@ -1,7 +1,4 @@
 from django.db import models
-
-
-
 #En este archivo modelo iran los datos relacionados con la cartelera de cine.
 
 #Calificacion por edades
