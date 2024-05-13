@@ -18,6 +18,8 @@ class Bebida(models.Model):
     
 #Menus que puedes comprar (menu pareja, menu familiar, menu obesidad, etc.)
 class Menu(models.Model):
+    nombre = models.TextField()
+    descripcion = models.TextField()
     id_comida = models.ForeignKey(Comida, on_delete=models.CASCADE)
     id_bebida = models.ForeignKey(Bebida, on_delete=models.CASCADE)
     precio = models.FloatField()

@@ -1,5 +1,5 @@
 from .models import Pelicula, PeliculaGenero, Pegi, Genero, Actor, Interpretacion
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions,filters
 from .serializers import PeliculaSerializer, PeliculaGeneroSerializer, PegiSerializer, GeneroSerializer, ActorSerializer, InterpretacionSerializer
 
 #Vista de API Pelicula
@@ -13,7 +13,6 @@ class PeliculaGeneroViewSet(viewsets.ModelViewSet):
     queryset = PeliculaGenero.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = PeliculaGeneroSerializer
-    
     
 #Vista de API Pegi
 class PegiViewSet(viewsets.ModelViewSet):
