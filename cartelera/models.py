@@ -17,7 +17,7 @@ class Actor(models.Model):
 #Pelicula de la cartelera
 class Pelicula(models.Model):
     url_trailer = models.TextField()
-    cartel = models.TextField()
+    cartel = models.ImageField()
     fecha_lanzamiento = models.DateField()
     director = models.TextField()
     titulo = models.TextField()

@@ -1,5 +1,9 @@
 from .api import PeliculaViewSet, PeliculaGeneroViewSet, GeneroViewSet, PegiViewSet, ActorViewSet, InterpretacionViewSet
 from rest_framework import routers
+from django.urls import re_path
+from .views import cartel
+
+
 
 router = routers.DefaultRouter()
 
@@ -9,5 +13,6 @@ router.register('api/pegis', PegiViewSet, 'pegis')
 router.register('api/actores', ActorViewSet, 'actores')
 router.register('api/peliculasgeneros', PeliculaGeneroViewSet, 'peliculasgeneros')
 router.register('api/interpretaciones', InterpretacionViewSet, 'interpretaciones')
+
 
 urlpatterns = router.urls
