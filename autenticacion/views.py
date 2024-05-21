@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
 from .serializers import UserSerializer
+from django.core import serializers
 
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -48,6 +49,21 @@ def register(request):
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(["PUT"])
+def edit(request):
+    
+    user = User.objects.get(id = request.data['id'])
+    
+    if user:
+        user.email =  request.data['email']
+        user.first_name =  request.data['first_name']
+        user.last_name =  request.data['last_name']
+        user.save()
+        return Response({'user':request.data, 'status':status.HTTP_201_CREATED})       
+    
+    return Response("No se ha podido guardar el usuario", status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
@@ -57,6 +73,12 @@ def profile(request):
     print(request.user)
     serializer = UserSerializer(instance=request.user)
     
-    
-    #return Response("You are login with {}".format(request.user.username),status=status.HTTP_200_OK)
     return Response(serializer.data ,status=status.HTTP_200_OK)
+
+
+
+@api_view(['GET'])
+def list(request):
+    users = serializers.serialize("json", User.objects.all(), fields=["id", "username", "email", "first_name", "last_name"]) 
+     
+    return Response(users ,status=status.HTTP_200_OK)

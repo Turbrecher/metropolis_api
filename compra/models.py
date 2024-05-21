@@ -6,14 +6,14 @@ from django.db import models
 class Comida(models.Model):
     nombre = models.TextField()
     descripcion = models.TextField()
-    foto = models.TextField()
+    foto = models.ImageField()
     precio = models.FloatField()
 
 #Bebidas que puedes comprar (cocacola, fanta, agua, etc.)
 class Bebida(models.Model):
     nombre = models.TextField()
     descripcion = models.TextField()
-    foto = models.TextField()
+    foto = models.ImageField()
     precio = models.FloatField()
     
 #Menus que puedes comprar (menu pareja, menu familiar, menu obesidad, etc.)
@@ -22,4 +22,5 @@ class Menu(models.Model):
     descripcion = models.TextField()
     id_comida = models.ForeignKey(Comida, on_delete=models.CASCADE)
     id_bebida = models.ForeignKey(Bebida, on_delete=models.CASCADE)
+    foto = models.ImageField()
     precio = models.FloatField()

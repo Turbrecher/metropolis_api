@@ -1,8 +1,9 @@
 from rest_framework import viewsets, permissions
-from .serializers import UsuarioSerializer
-from .models import Usuario
+from .serializers import UserSerializer
+from django.contrib.auth.models import User
+
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset = Usuario.objects.all()
+    queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
-    serializer_class = UsuarioSerializer
+    serializer_class = UserSerializer
