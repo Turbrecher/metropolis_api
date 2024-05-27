@@ -1,7 +1,7 @@
 from .api import UsuarioViewSet
 from .views import register,login,profile, edit, list
 from rest_framework import routers
-from django.urls import path, re_path
+from django.urls import  re_path
 
 router = routers.DefaultRouter()
 

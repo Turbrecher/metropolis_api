@@ -2,7 +2,7 @@ from django.db import models
 from cartelera.models import Pelicula
 from autenticacion.models import Usuario
 
-# Aqui iran los modelos relacionados con la reserva de entradas de sesiones.
+# Aqui iran los modelos relacionados con la reserva de entradas de sesiones de cine.
 
 #Sala de cine.
 class Sala(models.Model):

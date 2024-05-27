@@ -21,7 +21,7 @@ def login(request):
     if not user.check_password(request.data['password']):
         return Response({'error':'Invalid password', 'status':status.HTTP_400_BAD_REQUEST})
     
-    token,created = Token.objects.get_or_create(user=user)
+    token = Token.objects.get_or_create(user=user)
     serializer = UserSerializer(instance=user)
     
     return Response({'token':token.key, 'user':serializer.data, 'status':status.HTTP_200_OK})
@@ -70,7 +70,6 @@ def edit(request):
 @permission_classes([IsAuthenticated])
 def profile(request):
     
-    print(request.user)
     serializer = UserSerializer(instance=request.user)
     
     return Response(serializer.data ,status=status.HTTP_200_OK)

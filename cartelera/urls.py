@@ -1,7 +1,5 @@
 from .api import PeliculaViewSet, PeliculaGeneroViewSet, GeneroViewSet, PegiViewSet, ActorViewSet, InterpretacionViewSet
 from rest_framework import routers
-from django.urls import re_path
-from .views import cartel
 
 
 
