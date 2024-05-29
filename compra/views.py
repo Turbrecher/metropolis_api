@@ -1,9 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
-from .serializers import ComidaSerializer, BebidaSerializer, MenuListSerializer, MenuSerializer
-from .models import Comida, Bebida, Menu
+from .serializers import ComidaSerializer, BebidaSerializer, MenuListSerializer, MenuSerializer, TipoEntradaSerializer
+from .models import Comida, Bebida, Menu, TipoEntrada
 
+
+class TipoEntradaViewSet(viewsets.ModelViewSet):
+    serializer_class = TipoEntradaSerializer
+    queryset = TipoEntrada.objects.all()
 
 #---------COMIDAS--------------
 class ComidaViewSet(viewsets.ModelViewSet):

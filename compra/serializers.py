@@ -1,5 +1,13 @@
 from rest_framework import serializers
-from .models import Comida, Bebida, Menu
+from .models import Comida, Bebida, Menu, TipoEntrada
+
+
+#Serializador de tipo de entrada
+class TipoEntradaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipoEntrada
+        fields = serializers.ALL_FIELDS
+        read_only_fields = ('id',)
 
 #Serializador del modelo Comida
 class ComidaSerializer(serializers.ModelSerializer):
