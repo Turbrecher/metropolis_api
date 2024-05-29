@@ -1,16 +1,9 @@
-from .api import PeliculaViewSet, PeliculaGeneroViewSet, GeneroViewSet, PegiViewSet, ActorViewSet, InterpretacionViewSet
+from django.urls import re_path
+from .views import PeliculaViewSet
 from rest_framework import routers
-
-
 
 router = routers.DefaultRouter()
 
-router.register('api/peliculas', PeliculaViewSet, 'peliculas')
-router.register('api/generos', GeneroViewSet, 'generos')
-router.register('api/pegis', PegiViewSet, 'pegis')
-router.register('api/actores', ActorViewSet, 'actores')
-router.register('api/peliculasgeneros', PeliculaGeneroViewSet, 'peliculasgeneros')
-router.register('api/interpretaciones', InterpretacionViewSet, 'interpretaciones')
-
+router.register("api/peliculas", PeliculaViewSet)
 
 urlpatterns = router.urls

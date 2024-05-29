@@ -7,11 +7,19 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework import status
+from rest_framework import status, viewsets, permissions, generics
 
 from django.contrib.auth.models import User
 
-# Create your views here.
+
+#VIEWSET GENERAL PARA LISTAR, SUBIR, EDITAR Y ELIMINAR
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+#APIS PARA REGISTRO, LOGIN Y PERFIL DE USUARIO
 
 @api_view(['POST'])
 def login(request):
@@ -21,7 +29,7 @@ def login(request):
     if not user.check_password(request.data['password']):
         return Response({'error':'Invalid password', 'status':status.HTTP_400_BAD_REQUEST})
     
-    token = Token.objects.get_or_create(user=user)
+    token,created = Token.objects.get_or_create(user=user)
     serializer = UserSerializer(instance=user)
     
     return Response({'token':token.key, 'user':serializer.data, 'status':status.HTTP_200_OK})
@@ -40,9 +48,9 @@ def register(request):
         
         user = User.objects.get(username = serializer.data['username'])
         user.set_password(serializer.data['password'])
-        user.save() 
+        user.save()
         
-        token = Token.objects.create(user=user)
+        token,created = Token.objects.create(user=user)
         return Response({'token':token.key, 'user':serializer.data, 'status':status.HTTP_201_CREATED})
     
     
@@ -73,11 +81,3 @@ def profile(request):
     serializer = UserSerializer(instance=request.user)
     
     return Response(serializer.data ,status=status.HTTP_200_OK)
-
-
-
-@api_view(['GET'])
-def list(request):
-    users = serializers.serialize("json", User.objects.all(), fields=["id", "username", "email", "first_name", "last_name"]) 
-     
-    return Response(users ,status=status.HTTP_200_OK)

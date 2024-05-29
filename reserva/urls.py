@@ -1,10 +1,12 @@
+from django.urls import path,re_path
 from rest_framework import routers
-from .api import SalaViewSet, EntradaViewSet, SesionViewSet
+from .views import SesionViewSet, EntradaViewSet, SalaViewSet
 
 router = routers.DefaultRouter()
+router.register("api/sesiones", SesionViewSet)
+router.register("api/entradas", EntradaViewSet)
+router.register("api/salas", SalaViewSet)
 
-router.register('api/salas', SalaViewSet, 'salas')
-router.register('api/entradas', EntradaViewSet, 'entradas')
-router.register('api/sesiones', SesionViewSet, 'sesiones')
 
-urlpatterns = router.urls
+
+urlpatterns = router.get_urls()

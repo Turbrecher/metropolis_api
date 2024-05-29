@@ -15,9 +15,22 @@ class BebidaSerializer(serializers.ModelSerializer):
         fields = serializers.ALL_FIELDS
         read_only_fields = ('id',)
         
+        
 #Serializador del modelo Menu
 class MenuSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Menu
         fields = serializers.ALL_FIELDS
         read_only_fields = ('id',)
+        
+#Serializador del modelo Menu en las listas de datos
+class MenuListSerializer(serializers.ModelSerializer):
+    comida = ComidaSerializer(many=False, read_only=True)
+    bebida = BebidaSerializer(many=False, read_only=True)
+    
+    class Meta:
+        model = Menu
+        fields = serializers.ALL_FIELDS
+        read_only_fields = ('id',)
+        
