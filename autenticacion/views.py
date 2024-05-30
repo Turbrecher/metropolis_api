@@ -16,7 +16,6 @@ from django.contrib.auth.models import User
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
 
 
 #APIS PARA REGISTRO, LOGIN Y PERFIL DE USUARIO

@@ -58,6 +58,7 @@ class EntradaListSerializer(serializers.ModelSerializer):
     usuario = UserSerializer(many=False, read_only=True)
     sesion = SesionListSerializer(many=False, read_only=True)
     tipo_entrada = TipoEntradaSerializer(many=False, read_only=True)
+    sillon = SillonSerializer(many=False, read_only=True)
     
     class Meta:
         model = Entrada

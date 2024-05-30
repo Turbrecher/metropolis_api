@@ -39,3 +39,6 @@ class TipoEntrada(models.Model):
     descripcion = models.TextField()
     foto = models.ImageField()
     precio = models.FloatField()
+    
+    def __str__(self):
+        return self.nombre + " / " + str(self.precio) + " €"

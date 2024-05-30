@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
 from .serializers import ComidaSerializer, BebidaSerializer, MenuListSerializer, MenuSerializer, TipoEntradaSerializer
@@ -8,6 +9,9 @@ from .models import Comida, Bebida, Menu, TipoEntrada
 class TipoEntradaViewSet(viewsets.ModelViewSet):
     serializer_class = TipoEntradaSerializer
     queryset = TipoEntrada.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["nombre", "id"]
+        
 
 #---------COMIDAS--------------
 class ComidaViewSet(viewsets.ModelViewSet):

@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 class Sillon(models.Model):
     fila = models.IntegerField()
     columna = models.IntegerField()
+    
+    def __str__(self):
+        return "Fila "+ str(self.fila) + " /  Columna " + str(self.columna)
 
 #Sala de cine.
 class Sala(models.Model):
@@ -35,14 +38,9 @@ class Sesion(models.Model):
 class Entrada(models.Model):
     usuario = models.ForeignKey(User,on_delete=models.CASCADE)
     sesion = models.ForeignKey(Sesion,on_delete=models.CASCADE)
-    #sillon = models.ForeignKey(Sillon, on_delete=models.CASCADE)
+    sillon = models.ForeignKey(Sillon, on_delete=models.CASCADE)
     fecha_compra = models.DateField()
     tipo_entrada = models.ForeignKey(TipoEntrada, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.nombre
-    
-    
-
-    
-    
