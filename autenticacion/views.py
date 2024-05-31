@@ -65,6 +65,10 @@ def edit(request):
         user.email =  request.data['email']
         user.first_name =  request.data['first_name']
         user.last_name =  request.data['last_name']
+        
+        if (request.data["password"] == request.data["confirm_password"]) and len(request.data["password"]) >= 8 :
+            user.set_password(request.data['password'])
+        
         user.save()
         return Response({'user':request.data, 'status':status.HTTP_201_CREATED})       
     
