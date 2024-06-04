@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.response import Response
-from .serializers import UserSerializer
+from .serializers import UserSerializer, AdminUserSerializer
 from django.core import serializers
 
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -38,18 +38,36 @@ def login(request):
 def register(request):
     
     serializer = UserSerializer(data=request.data)
-    print(serializer)
     
     if serializer.is_valid():
         serializer.save()
-        
-        
         
         user = User.objects.get(username = serializer.data['username'])
         user.set_password(serializer.data['password'])
         user.save()
         
-        token,created = Token.objects.create(user=user)
+        token = Token.objects.create(user=user)
+        return Response({'token':token.key, 'user':serializer.data, 'status':status.HTTP_201_CREATED})
+    
+    
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def create_user(request):
+    
+    serializer = AdminUserSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        
+        user = User.objects.get(username = serializer.data['username'])
+        user.set_password(serializer.data['password'])
+        user.save()
+        
+        token = Token.objects.create(user=user)
+        print(token)
         return Response({'token':token.key, 'user':serializer.data, 'status':status.HTTP_201_CREATED})
     
     

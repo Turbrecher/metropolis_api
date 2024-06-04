@@ -26,7 +26,7 @@ class Sesion(models.Model):
     pelicula = models.ForeignKey(Pelicula,on_delete=models.CASCADE)
     sala = models.ForeignKey(Sala, related_name="sala",on_delete=models.CASCADE)
     hora = models.TimeField()
-    sillones_ocupados = models.ManyToManyField(Sillon)
+    sillones_ocupados = models.ManyToManyField(Sillon, blank=True)
     
     class Meta:
         unique_together = ('sala', 'hora',)

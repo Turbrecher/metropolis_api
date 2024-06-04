@@ -1,4 +1,4 @@
-from .views import register,login,profile, edit, UserViewSet
+from .views import register,login,profile, edit,create_user, UserViewSet
 from rest_framework import routers
 from django.urls import  re_path
 
@@ -12,4 +12,5 @@ urlpatterns = [
     re_path('api/usuarios/login', login, name = 'login'),
     re_path('api/usuarios/profile', profile, name = 'profile'),
     re_path('api/usuarios/edit', edit, name = 'edit'),
+    re_path('api/usuarios/create', create_user, name = 'edit'),
     ] + router.get_urls()
