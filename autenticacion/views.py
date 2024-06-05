@@ -101,4 +101,10 @@ def profile(request):
     
     serializer = UserSerializer(instance=request.user)
     
+    serializerAdmin = AdminUserSerializer(instance=request.user)
+    
+    if(serializerAdmin.data.get("is_superuser") == True):
+        return Response(serializerAdmin.data ,status=status.HTTP_200_OK)
+    
+    
     return Response(serializer.data ,status=status.HTTP_200_OK)
