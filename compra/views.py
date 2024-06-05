@@ -17,42 +17,38 @@ class TipoEntradaViewSet(viewsets.ModelViewSet):
 class ComidaViewSet(viewsets.ModelViewSet):
     serializer_class = ComidaSerializer
     queryset = Comida.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["nombre", "id", "descripcion", "precio"]
     
 #---------BEBIDAS--------------
 class BebidaViewSet(viewsets.ModelViewSet):
     serializer_class = BebidaSerializer
     queryset = Bebida.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["nombre", "id", "descripcion", "precio"]
     
 
 #---------MENUS--------------
 class MenuViewSet(viewsets.ModelViewSet):
     serializer_class = MenuSerializer
     queryset = Menu.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["nombre", "id", "descripcion", "precio"]
     
-    def list(self, request):
-        queryset = Menu.objects.all()
-        
-        #Si el usuario filtra por id de comida
-        id_comida = request.GET.get("id_bebida")
-        if id_comida is not None:
-            #Filtramos por id de pelicula
-            queryset = Menu.objects.filter(comida_id = id_comida)
-            
-        #Si el usuario filtra por id de bebida
-        id_bebida = request.GET.get("id_bebida")
-        if id_bebida is not None:
-            #Filtramos por id de pelicula
-            queryset = Menu.objects.filter(bebida_id = id_bebida)
-            
-        serializer = MenuListSerializer(queryset, many=True)
-        
-        return Response(serializer.data)
+    action_serializers = {
+        "retrieve": MenuListSerializer,
+        "list":MenuListSerializer,
+        'create':MenuSerializer,
+        'update':MenuSerializer
+    }
     
-    def retrieve(self, request, pk=None):
-        queryset = Menu.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = MenuListSerializer(user, many=False)
-        
-        return Response(serializer.data)
+    def get_serializer_class(self):
+
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(MenuViewSet, self).get_serializer_class()
+    
+    
     
 

@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 
 #VIEWSET GENERAL PARA LISTAR, SUBIR, EDITAR Y ELIMINAR
 class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = AdminUserSerializer
     queryset = User.objects.all()
 
 

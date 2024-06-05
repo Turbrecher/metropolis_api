@@ -43,62 +43,38 @@ class SalaViewSet(viewsets.ModelViewSet):
     queryset = Sala.objects.all()
     serializer_class = SalaSerializer
     
-    def list(self, request):
-        queryset = Sala.objects.all()
-        
-        
-        #Si el usuario filtra por id de pelicula
-        fila = request.GET.get("sillon__fila")
-        if fila is not None:
-            #Filtramos por fila
-            queryset = Sala.objects.filter(pelicula__id = fila)
-            
-        #Si el usuario filtra por id de sala
-        columna = request.GET.get("sillon__columna")
-        if columna is not None:
-            #Filtramos por columna
-            queryset = Sala.objects.filter(sala__id = columna)
-            
-        serializer = SalaListSerializer(queryset, many=True)
-        
-        return Response(serializer.data)
+    action_serializers = {
+        "retrieve": SalaListSerializer,
+        "list":SalaListSerializer,
+        'create':SalaSerializer,
+        'update':SalaSerializer
+    }
     
-    def retrieve(self, request, pk=None):
-        queryset = Sala.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = SalaListSerializer(user, many=False)
-        
-        return Response(serializer.data)
+    def get_serializer_class(self):
+
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(SalaViewSet, self).get_serializer_class()
+      
     
 class EntradaViewSet(viewsets.ModelViewSet):
     queryset = Entrada.objects.all()
     serializer_class = EntradaSerializer
     
-    def list(self, request):
-        queryset = Entrada.objects.all()
-        
-        #Si el usuario filtra por id de usuario
-        id_usuario = request.GET.get("id_usuario")
-        if id_usuario is not None:
-            #Filtramos por id de usuario
-            queryset = Entrada.objects.filter(usuario_id = id_usuario)
-            
-        #Si el usuario filtra por id de sesion
-        id_sesion = request.GET.get("id_sesion")
-        if id_sesion is not None:
-            #Filtramos por id de usuario
-            queryset = Entrada.objects.filter(sesion_id = id_sesion)
-            
-        serializer = EntradaListSerializer(queryset, many=True)
-        
-        return Response(serializer.data)
+    action_serializers = {
+        "retrieve": EntradaListSerializer,
+        "list":EntradaListSerializer,
+        'create':EntradaSerializer,
+        'update':EntradaSerializer
+    }
     
-    def retrieve(self, request, pk=None):
-        queryset = Entrada.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = EntradaListSerializer(user, many=False)
-        
-        return Response(serializer.data)
+    def get_serializer_class(self):
+
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(EntradaViewSet, self).get_serializer_class()
     
 class SillonViewSet(viewsets.ModelViewSet):
     queryset = Sillon.objects.all()
