@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.templatetags.static import static
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
+from django.http import FileResponse
+from django.shortcuts import render
 from rest_framework import permissions, viewsets, status
 from .models import Sala, Entrada, Sesion, Sillon
 from .serializers import SesionSerializer, SesionListSerializer, SalaSerializer, EntradaSerializer, EntradaListSerializer, SillonSerializer, SalaListSerializer
@@ -11,33 +13,22 @@ from .serializers import SesionSerializer, SesionListSerializer, SalaSerializer,
 class SesionViewSet(viewsets.ModelViewSet):
     queryset = Sesion.objects.all()
     serializer_class = SesionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["hora", "id" , "pelicula__id", "sala__id"]
     
-    def list(self, request):
-        queryset = Sesion.objects.all()
-        
-        
-        #Si el usuario filtra por id de pelicula
-        id_pelicula = request.GET.get("pelicula__id")
-        if id_pelicula is not None:
-            #Filtramos por id de pelicula
-            queryset = Sesion.objects.filter(pelicula__id = id_pelicula)
-            
-        #Si el usuario filtra por id de sala
-        id_sala = request.GET.get("sala__id")
-        if id_sala is not None:
-            #Filtramos por id de pelicula
-            queryset = Sesion.objects.filter(sala__id = id_sala)
-            
-        serializer = SesionListSerializer(queryset, many=True)
-        
-        return Response(serializer.data)
+    action_serializers = {
+        "retrieve": SesionListSerializer,
+        "list":SesionListSerializer,
+        'create':SesionSerializer,
+        'update':SesionSerializer
+    }
     
-    def retrieve(self, request, pk=None):
-        queryset = Sesion.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = SesionListSerializer(user, many=False)
-        
-        return Response(serializer.data)
+    def get_serializer_class(self):
+
+        if hasattr(self, 'action_serializers'):
+            return self.action_serializers.get(self.action, self.serializer_class)
+
+        return super(SesionViewSet, self).get_serializer_class()
     
 class SalaViewSet(viewsets.ModelViewSet):
     queryset = Sala.objects.all()
@@ -61,6 +52,8 @@ class SalaViewSet(viewsets.ModelViewSet):
 class EntradaViewSet(viewsets.ModelViewSet):
     queryset = Entrada.objects.all()
     serializer_class = EntradaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = [ "id" , "usuario__id"]
     
     action_serializers = {
         "retrieve": EntradaListSerializer,
@@ -79,3 +72,10 @@ class EntradaViewSet(viewsets.ModelViewSet):
 class SillonViewSet(viewsets.ModelViewSet):
     queryset = Sillon.objects.all()
     serializer_class = SillonSerializer
+    
+    
+def imprimirEntrada(request):
+    
+    url = static("entrada.html")
+    print(url)
+    return Response(open(url))

@@ -1,0 +1,235 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrada Metropolis {{usuario.username}}</title>
+
+    <style type="text/css">
+        /*Estilos que se aplican a TODAS las etiquetas de la pagina*/
+        * {
+            color: white;
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+            z-index: 0;
+            font-weight: normal;
+        }
+
+        @page {
+            background-color: #051122;
+            width: 10cm;
+            height: 3cm;
+            margin-top: 4cm;
+            margin-bottom: 1cm;
+            margin-left: 1cm;
+            margin-right: 1cm;
+
+            @top-center {
+                content: element(header);
+                width: 100%;
+            }
+
+            @bottom-center {
+                content: element(footer);
+                width: 100%;
+            }
+
+            @top-right {}
+
+
+        }
+
+        header {
+            position: running(header);
+            display: grid;
+            justify-content: center;
+        }
+
+
+
+        header .header_top {
+            padding-bottom: 0.15cm;
+            border-bottom: solid white 1px;
+        }
+
+
+
+        header .header_top .logotipo {
+            width: 200px;
+            margin: 0 auto;
+        }
+
+        header .header_top .logotipo img {
+            width: 100%;
+            background-color: #051122;
+        }
+
+        header .header_bottom {
+            padding-top: 0.25cm;
+            display: flex;
+            justify-content: space-around;
+            align-items: start;
+        }
+
+        header .header_bottom .info_cliente {
+            text-align: left;
+        }
+
+        header .header_bottom .info_empresa {
+            text-align: right;
+        }
+
+
+        main .tabla_entrada table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        main .tabla_entrada table td,
+        th {
+            border: solid white 1px;
+            padding: 0.3cm;
+            font-size: 8px;
+            text-align: center;
+        }
+
+        footer {
+            position: running(footer);
+        }
+
+        footer .qr {
+
+            position: fixed;
+            width: 50px;
+            top: 1cm;
+            left: 45%;
+        }
+
+        footer .qr img {
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        footer .metropolis img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- CONTENEDOR QUE ENGLOBA TODO EL BODY -->
+    <div class="container">
+        <!-- CABECERA -->
+        <header>
+            <!-- Parte superior de la cabecera (logotipo e información de la empresa) -->
+            <div class="header_top">
+
+                <!-- logotipo -->
+                <div class="logotipo">
+
+                    {% if empresa.logotipo %}
+                    <img src="{{empresa.logotipo}}">
+                    {% else %}
+                    <img src="{% static metropolis_logo.png %}">
+                    {% endif %}
+
+                </div>
+
+
+
+            </div>
+
+            <!-- Parte inferior de la cabecera (información de la factura e información del cliente) -->
+            <div class="header_bottom">
+
+
+                <!-- informacion del cliente -->
+                <div class="info_cliente">
+
+                    <!-- username -->
+                    <h5 class="razon_fiscal">{{usuario.username}}Elmoreno</h5>
+
+                    <!-- nombre -->
+                    <h5 class="razon_fiscal">{{usuario.first_name}}Morenito</h5>
+
+                    <!-- apellidos -->
+                    <h5 class="razon_fiscal">{{usuario.last_name}}Sanchez Guerra</h5>
+
+                    <!-- correo -->
+                    <h5 class="razon_fiscal">{{usuario.email}}moreno@correo.es</h5>
+
+                </div>
+
+                <!-- información de la empresa -->
+                <div class="info_empresa">
+
+                    <!-- Nombre empresa -->
+                    <h5>Metropolis S.L</h5>
+
+                    <!-- Direccion empresa -->
+                    <h5>Av. de Andalucía, 0</h5>
+
+                    <!-- CP Y Provincia-->
+                    <h5>21001 Huelva</h5>
+
+                    <!-- Telefono -->
+                    <h5>Telefono: 959524177</h5>
+
+
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main>
+
+            <!-- DIV QUE CONTIENE A LA TABLA DE PRODUCTOS / SERVICIOS -->
+            <div class="tabla_entrada">
+                <!-- TABLA DE PRODUCTOS -->
+                <table>
+                    <!-- CABECERA DE LA TABLA -->
+                    <thead>
+                        <tr>
+                            <!-- cabecera de datos y servicios -->
+                            <th class="pelicula">PELÍCULA</th>
+                            <th class="sesion">SESIÓN</th>
+                            <th class="sala">SALA</th>
+                            <th class="precio">PRECIO</th>
+                        </tr>
+                    </thead>
+
+                    <!-- CUERPO DE LA TABLA -->
+                    <tbody>
+
+                        <!-- Cargamos el cuerpo de la factura -->
+                        <td class="pelicula">Oshi no Ko</td>
+                        <td class="sesion">14:30</td>
+                        <td class="sala">Sala 2</td>
+                        <td class="precio">4.99</td>
+
+
+                    </tbody>
+                </table>
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+
+            <div class="qr">
+                <img src="{% static qr_code.png %}">
+            </div>
+
+            <div class="metropolis">
+                <img src="{% static metropolis.png %}">
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
