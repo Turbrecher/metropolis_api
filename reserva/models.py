@@ -9,12 +9,15 @@ class Sillon(models.Model):
     fila = models.IntegerField()
     columna = models.IntegerField()
     
+    class Meta:
+        unique_together = ('fila', 'columna',)
+    
     def __str__(self):
         return "Fila "+ str(self.fila) + " /  Columna " + str(self.columna)
 
 #Sala de cine.
 class Sala(models.Model):
-    nombre = models.TextField()
+    nombre = models.TextField(unique=True)
     aforo = models.IntegerField()
     sillones = models.ManyToManyField(Sillon)
     

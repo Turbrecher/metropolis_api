@@ -4,6 +4,7 @@ from .models import Comida, Bebida, Menu, TipoEntrada
 
 #Serializador de tipo de entrada
 class TipoEntradaSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = TipoEntrada
         fields = serializers.ALL_FIELDS
@@ -11,6 +12,7 @@ class TipoEntradaSerializer(serializers.ModelSerializer):
 
 #Serializador del modelo Comida
 class ComidaSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Comida
         fields = serializers.ALL_FIELDS
@@ -18,6 +20,7 @@ class ComidaSerializer(serializers.ModelSerializer):
         
 #Serializador del modelo Bebida
 class BebidaSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Bebida
         fields = serializers.ALL_FIELDS

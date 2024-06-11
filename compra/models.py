@@ -6,7 +6,7 @@ from django.db import models
 class Comida(models.Model):
     nombre = models.TextField()
     descripcion = models.TextField()
-    foto = models.ImageField()
+    foto = models.ImageField(null=True)
     precio = models.FloatField()
     
     def __str__(self):
