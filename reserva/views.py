@@ -1,3 +1,5 @@
+import string
+from weasyprint import HTML
 from django.templatetags.static import static
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
@@ -7,6 +9,8 @@ from django.http import FileResponse
 from django.shortcuts import render
 from rest_framework import permissions, viewsets, status
 from .models import Sala, Entrada, Sesion, Sillon
+from cartelera.models import Pelicula
+from django.contrib.auth.models import User
 from .serializers import SesionSerializer, SesionListSerializer, SalaSerializer, EntradaSerializer, EntradaListSerializer, SillonSerializer, SalaListSerializer
 # Create your views here.
 
@@ -74,8 +78,55 @@ class SillonViewSet(viewsets.ModelViewSet):
     serializer_class = SillonSerializer
     
     
-def imprimirEntrada(request):
+def getEntrada(request, id):
     
-    url = static("entrada.html")
-    print(url)
-    return Response(open(url))
+    #Obtenemos entrada
+    entrada = Entrada.objects.filter(id=id)[0]
+    precio = str(entrada.tipo_entrada).rsplit("/")[1].strip()
+    
+    #Obtenemos usuario
+    username = str(entrada.usuario).strip()
+    usuario = User.objects.filter(username=username)[0]
+    
+    #COMPROBAR LUEGO AUTENTICACION
+    
+    #Obtenemos la hora de la sesion
+    hora = str(entrada.sesion).rsplit("//")[1].strip() + "0"
+    
+    #Obtenemos la pelicula
+    titulo_pelicula =  str(entrada.sesion).rsplit("//")[0].strip()
+    pelicula = Pelicula.objects.filter(titulo = titulo_pelicula)[0]
+
+    #Obtenemos la sesion
+    sesion = Sesion.objects.filter(hora= (hora), pelicula=pelicula.id)[0]
+    
+    #Obtenemos el nombre de la sala
+    sala = sesion.sala
+    
+    #Obtenemos el logotipo
+    logotipo = static("metropolis_logo.png")
+    
+    #Obtenemos el qr
+    qr_code = static("qr_code.png")
+    
+    #Obtenemos la metropolis
+    metropolis = static("metropolis.png")
+    
+    
+    return render(template_name="entrada.html", request=request, context={
+        "usuario":usuario,
+        "entrada":entrada,
+        "hora":hora,
+        "titulo_pelicula":titulo_pelicula,
+        "sala":sala,
+        "precio":precio,
+        "logotipo":logotipo,
+        "qr_code":qr_code,
+        "metropolis":metropolis
+    })
+    
+def imprimirEntrada(request, id):
+    url = "http://localhost:8000/reserva/entradas/ver/"+str(id)
+    pdf = HTML(url = url).write_pdf(target='reserva/templates/entrada_factura.pdf')
+    
+    return FileResponse(open('reserva/templates/entrada_factura.pdf', 'rb'), content_type='application/pdf')

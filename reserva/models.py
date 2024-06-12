@@ -35,7 +35,7 @@ class Sesion(models.Model):
         unique_together = ('sala', 'hora',)
     
     def __str__(self):
-        return  self.pelicula.__str__() + " // " + str(self.hora.hour) + " : " +  str(self.hora.minute)
+        return  self.pelicula.__str__() + " // " + str(self.hora.hour) + ":" +  str(self.hora.minute)
     
 #Entrada de una sesion de cine.
 class Entrada(models.Model):
