@@ -12,5 +12,5 @@ urlpatterns = [
     re_path('api/usuarios/login', login, name = 'login'),
     re_path('api/usuarios/profile', profile, name = 'profile'),
     re_path('api/usuarios/edit', edit, name = 'edit'),
-    re_path('api/usuarios/create', create_user, name = 'edit'),
+    re_path('api/usuarios/create', create_user, name = 'create'),
     ] + router.get_urls()

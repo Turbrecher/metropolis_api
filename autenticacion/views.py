@@ -64,10 +64,12 @@ def create_user(request):
         
         user = User.objects.get(username = serializer.data['username'])
         user.set_password(serializer.data['password'])
+        user.is_superuser = (serializer.data["is_superuser"])
         user.save()
         
         token = Token.objects.create(user=user)
         print(token)
+        print(serializer.data["is_superuser"])
         return Response({'token':token.key, 'user':serializer.data, 'status':status.HTTP_201_CREATED})
     
     
